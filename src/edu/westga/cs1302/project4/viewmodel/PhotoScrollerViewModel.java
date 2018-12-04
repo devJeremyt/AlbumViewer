@@ -14,7 +14,7 @@ import javafx.collections.FXCollections;
  */
 public class PhotoScrollerViewModel {
 	private PhotoAlbum album;
-	private ListProperty photoListProperty;
+	private ListProperty<Photo> photoListProperty;
 
 	/**
 	 * Creates a new PhotoScrollerViewModel
@@ -25,8 +25,26 @@ public class PhotoScrollerViewModel {
 	 */
 	public PhotoScrollerViewModel() {
 		this.album = new PhotoAlbum();
-		this.photoListProperty = new SimpleListProperty();
+		this.photoListProperty = new SimpleListProperty<Photo>();
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+	}
+
+	/**
+	 * Returns the album
+	 * 
+	 * @return the album
+	 */
+	public PhotoAlbum getAlbum() {
+		return this.album;
+	}
+
+	/**
+	 * Returns the photo list property
+	 * 
+	 * @return the photo list property
+	 */
+	public ListProperty<Photo> photoListProperty() {
+		return this.photoListProperty;
 	}
 
 	/**
@@ -65,6 +83,8 @@ public class PhotoScrollerViewModel {
 	 * @return true if the photo is added
 	 */
 	public boolean addPhoto(Photo photo) {
-		return this.album.add(photo);
+		boolean answer = this.album.add(photo);
+		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		return answer;
 	}
 }

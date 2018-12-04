@@ -7,28 +7,41 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.project4.view.PhotoScrollerCodeBehind">
+<AnchorPane fx:id="mainPane" minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.project4.view.PhotoScrollerCodeBehind">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="650.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu text="_File">
             <items>
-              <MenuItem fx:id="fileLoadAlbumMenuItem" mnemonicParsing="false" onAction="#loadAlbum" text="Load Album" />
-                  <MenuItem fx:id="fileSaveAlbumMenuItem" mnemonicParsing="false" onAction="#saveAlbum" text="Save Album" />
-                  <MenuItem fx:id="fileAddPhotoMenuItem" mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
+              <MenuItem fx:id="fileLoadAlbumMenuItem" onAction="#loadAlbum" text="_Load Album">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="fileSaveAlbumMenuItem" onAction="#saveAlbum" text="_Save Album">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="fileAddPhotoMenuItem" onAction="#addPhoto" text="_Add Photo">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu text="_Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem text="Abou_t">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <ImageView fitHeight="250.0" fitWidth="300.0" layoutX="34.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView layoutX="389.0" layoutY="68.0" prefHeight="250.0" prefWidth="200.0" />
+      <ImageView fx:id="imageView" fitHeight="250.0" fitWidth="300.0" layoutX="34.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
+      <ListView fx:id="photosListView" layoutX="389.0" layoutY="68.0" prefHeight="250.0" prefWidth="200.0" />
       <Button fx:id="removeButton" layoutX="463.0" layoutY="343.0" mnemonicParsing="false" onAction="#removePhoto" text="Remove" />
       <Button fx:id="previousButton" layoutX="149.0" layoutY="343.0" mnemonicParsing="false" onAction="#previousPhoto" text="&lt;" />
       <Button fx:id="nextButton" layoutX="194.0" layoutY="343.0" mnemonicParsing="false" onAction="#nextPhoto" text="&gt;" />
