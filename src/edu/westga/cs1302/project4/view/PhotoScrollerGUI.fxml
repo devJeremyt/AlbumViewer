@@ -9,14 +9,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane minHeight="400.0" minWidth="650.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<AnchorPane minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.project4.view.PhotoScrollerCodeBehind">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="650.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="fileLoadAlbumMenuItem" mnemonicParsing="false" onAction="#loadAlbum" text="Load Album" />
+                  <MenuItem fx:id="fileSaveAlbumMenuItem" mnemonicParsing="false" onAction="#saveAlbum" text="Save Album" />
+                  <MenuItem fx:id="fileAddPhotoMenuItem" mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
