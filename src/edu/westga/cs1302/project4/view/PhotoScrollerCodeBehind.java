@@ -67,6 +67,16 @@ public class PhotoScrollerCodeBehind {
 	@FXML
 	void initialize() {
 		this.setupBindings();
+		this.setupListeners();
+	}
+
+	private void setupListeners() {
+		this.photosListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				this.imageView.setImage(newValue);
+			}
+		});
+
 	}
 
 	private void setupBindings() {
