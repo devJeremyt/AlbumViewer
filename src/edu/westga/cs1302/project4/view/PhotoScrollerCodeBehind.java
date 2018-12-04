@@ -133,6 +133,7 @@ public class PhotoScrollerCodeBehind {
 
 	@FXML
 	void removePhoto(ActionEvent event) {
+		this.viewmodel.removePhoto(this.photosListView.getSelectionModel().getSelectedItem());
 
 	}
 

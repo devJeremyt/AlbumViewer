@@ -106,4 +106,21 @@ public class PhotoScrollerViewModel {
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
 
 	}
+
+	/**
+	 * Removes the specified photo from the album
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param photo
+	 *            the photo to be removed
+	 * @return true if the photo was removed, else false
+	 */
+	public boolean removePhoto(Photo photo) {
+		boolean result = this.album.remove(photo);
+		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		return result;
+
+	}
 }
