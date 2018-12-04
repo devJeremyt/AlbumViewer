@@ -1,5 +1,6 @@
 package edu.westga.cs1302.project4.viewmodel;
 
+import edu.westga.cs1302.project4.datatier.AlbumFileReader;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.model.PhotoAlbum;
 import javafx.beans.property.ListProperty;
@@ -86,5 +87,23 @@ public class PhotoScrollerViewModel {
 		boolean answer = this.album.add(photo);
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
 		return answer;
+	}
+
+	/**
+	 * Loads a new PhotoAlbum
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param filePath
+	 *            the file Path of the new album
+	 * @param photosWidth
+	 *            requestedWidth of the photos
+	 * 
+	 */
+	public void loadAlbum(String filePath, double photosWidth) {
+		this.album = AlbumFileReader.readAlbumFile(filePath, photosWidth);
+		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+
 	}
 }

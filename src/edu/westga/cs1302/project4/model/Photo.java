@@ -22,7 +22,7 @@ public class Photo extends Image {
 	 *            the requested width of the photo
 	 */
 	public Photo(String filePath, double requestedWidth) {
-		super(filePath, requestedWidth, 0, true, false);
+		super("file:" + filePath, requestedWidth, 0, true, false);
 
 		this.fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
 		this.filePath = filePath;
@@ -39,6 +39,18 @@ public class Photo extends Image {
 	 */
 	public String getFileName() {
 		return this.fileName;
+	}
+
+	/**
+	 * Returns the file path of the Photo
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the file path
+	 */
+	public String getFilePath() {
+		return this.filePath;
 	}
 
 	@Override

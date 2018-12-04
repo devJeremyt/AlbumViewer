@@ -90,7 +90,7 @@ public class PhotoScrollerCodeBehind {
 		Stage stage = (Stage) this.mainPane.getScene().getWindow();
 		File selectedFile = fileChooser.showOpenDialog(stage);
 		if (selectedFile != null) {
-			Photo newPhoto = new Photo("file:" + selectedFile.getAbsolutePath(), this.imageView.getFitWidth());
+			Photo newPhoto = new Photo(selectedFile.getAbsolutePath(), this.imageView.getFitWidth());
 			this.viewmodel.addPhoto(newPhoto);
 		}
 
@@ -98,7 +98,16 @@ public class PhotoScrollerCodeBehind {
 
 	@FXML
 	void loadAlbum(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load Album");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("PAF", "*.paf"),
+				new ExtensionFilter("All Files", "*.*"));
 
+		Stage stage = (Stage) this.mainPane.getScene().getWindow();
+		File selectedFile = fileChooser.showOpenDialog(stage);
+		if (selectedFile != null) {
+			this.viewmodel.loadAlbum(selectedFile.getAbsolutePath(), this.imageView.getFitWidth());
+		}
 	}
 
 	@FXML
