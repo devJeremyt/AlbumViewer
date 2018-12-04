@@ -122,12 +122,13 @@ public class PhotoScrollerCodeBehind {
 
 	@FXML
 	void nextPhoto() {
-		this.viewmodel.getNext();
+		this.photosListView.getSelectionModel().select(this.viewmodel.getNext());
+
 	}
 
 	@FXML
 	void previousPhoto(ActionEvent event) {
-		this.viewmodel.getPrevious();
+		this.photosListView.getSelectionModel().select(this.viewmodel.getPrevious());
 	}
 
 	@FXML

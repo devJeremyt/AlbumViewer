@@ -134,4 +134,16 @@ public class PhotoAlbum implements Collection<Photo> {
 		return this.photos.toArray(photo);
 	}
 
+	/**
+	 * Returns the current index of the photo in the album
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return the current index
+	 */
+	public int getCurrentIndex() {
+		return this.currentIndex;
+	}
+
 }
