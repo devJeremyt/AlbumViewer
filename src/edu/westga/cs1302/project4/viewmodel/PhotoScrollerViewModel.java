@@ -1,7 +1,6 @@
 package edu.westga.cs1302.project4.viewmodel;
 
 import java.io.File;
-import java.util.List;
 
 import edu.westga.cs1302.project4.datatier.AlbumFileReader;
 import edu.westga.cs1302.project4.datatier.AlbumFileWriter;
@@ -12,9 +11,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * The PhotoScrollerViewModel
@@ -114,6 +113,13 @@ public class PhotoScrollerViewModel {
 	 */
 	public boolean addPhoto(Photo photo) {
 		boolean answer = this.album.add(photo);
+		if (!answer) {
+			Alert failed = new Alert(AlertType.INFORMATION);
+			failed.setTitle("Photo Not Loaded");
+			failed.setHeaderText("Duplicate Photo");
+			failed.setContentText(photo.getFileName() + " is a duplicate, and was not loaded.");
+			failed.showAndWait();
+		}
 		this.updateProperties();
 		return answer;
 	}
