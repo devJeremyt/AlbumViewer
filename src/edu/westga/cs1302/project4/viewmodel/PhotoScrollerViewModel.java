@@ -1,6 +1,9 @@
 package edu.westga.cs1302.project4.viewmodel;
 
+import java.io.File;
+
 import edu.westga.cs1302.project4.datatier.AlbumFileReader;
+import edu.westga.cs1302.project4.datatier.AlbumFileWriter;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.model.PhotoAlbum;
 import javafx.beans.property.ListProperty;
@@ -121,6 +124,20 @@ public class PhotoScrollerViewModel {
 		boolean result = this.album.remove(photo);
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
 		return result;
+
+	}
+
+	/**
+	 * Saves the current album to the specified file
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @param selectedFile
+	 *            the file to be saved too
+	 */
+	public void saveAlbum(File selectedFile) {
+		AlbumFileWriter.createAlbumFile(selectedFile, this.album);
 
 	}
 }

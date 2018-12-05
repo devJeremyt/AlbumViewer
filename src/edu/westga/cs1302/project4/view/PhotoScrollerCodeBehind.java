@@ -85,12 +85,21 @@ public class PhotoScrollerCodeBehind {
 	}
 
 	@FXML
-	void saveAlbum(ActionEvent event) {
+	void saveAlbum() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Album");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("PAF", "*.paf"),
+				new ExtensionFilter("All Files", "*.*"));
 
+		Stage stage = (Stage) this.mainPane.getScene().getWindow();
+		File selectedFile = fileChooser.showSaveDialog(stage);
+		if (selectedFile != null) {
+			this.viewmodel.saveAlbum(selectedFile);
+		}
 	}
 
 	@FXML
-	void addPhoto(ActionEvent event) {
+	void addPhoto() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Add Photo");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("BMP", "*.bmp"),
@@ -107,7 +116,7 @@ public class PhotoScrollerCodeBehind {
 	}
 
 	@FXML
-	void loadAlbum(ActionEvent event) {
+	void loadAlbum() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Load Album");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("PAF", "*.paf"),
