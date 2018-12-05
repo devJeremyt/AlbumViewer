@@ -32,7 +32,7 @@
           </Menu>
           <Menu text="_Help">
             <items>
-              <MenuItem text="Abou_t">
+              <MenuItem onAction="#displayAbout" text="Abou_t">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

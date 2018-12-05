@@ -6,6 +6,8 @@ import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.viewmodel.PhotoScrollerViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -144,6 +146,15 @@ public class PhotoScrollerCodeBehind {
 	void removePhoto(ActionEvent event) {
 		this.viewmodel.removePhoto(this.photosListView.getSelectionModel().getSelectedItem());
 
+	}
+
+	@FXML
+	void displayAbout(ActionEvent event) {
+		Alert about = new Alert(AlertType.INFORMATION);
+		about.setTitle("About");
+		about.setHeaderText("PhotoScroller by Jeremy Trimble");
+		about.setContentText("Version 1.0");
+		about.showAndWait();
 	}
 
 }
