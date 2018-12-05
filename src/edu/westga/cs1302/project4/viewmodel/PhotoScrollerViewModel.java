@@ -1,16 +1,20 @@
 package edu.westga.cs1302.project4.viewmodel;
 
 import java.io.File;
+import java.util.List;
 
 import edu.westga.cs1302.project4.datatier.AlbumFileReader;
 import edu.westga.cs1302.project4.datatier.AlbumFileWriter;
+import edu.westga.cs1302.project4.model.ColorFilterOptions;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.model.PhotoAlbum;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * The PhotoScrollerViewModel
@@ -22,6 +26,7 @@ public class PhotoScrollerViewModel {
 	private PhotoAlbum album;
 	private ListProperty<Photo> photoListProperty;
 	private BooleanProperty emptyAlbumProperty;
+	private ListProperty<ColorFilterOptions> colorFilterProperty;
 
 	/**
 	 * Creates a new PhotoScrollerViewModel
@@ -35,6 +40,8 @@ public class PhotoScrollerViewModel {
 		this.photoListProperty = new SimpleListProperty<Photo>();
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
 		this.emptyAlbumProperty = new SimpleBooleanProperty(true);
+		this.colorFilterProperty = new SimpleListProperty<ColorFilterOptions>();
+		this.colorFilterProperty.set(FXCollections.observableArrayList(ColorFilterOptions.values()));
 	}
 
 	/**
@@ -168,5 +175,9 @@ public class PhotoScrollerViewModel {
 		} else {
 			this.emptyAlbumProperty.set(false);
 		}
+	}
+
+	public ListProperty<ColorFilterOptions> colorFilterProperty() {
+		return this.colorFilterProperty;
 	}
 }

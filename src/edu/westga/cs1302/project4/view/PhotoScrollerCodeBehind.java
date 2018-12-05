@@ -2,6 +2,7 @@ package edu.westga.cs1302.project4.view;
 
 import java.io.File;
 
+import edu.westga.cs1302.project4.model.ColorFilterOptions;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.viewmodel.PhotoScrollerViewModel;
 import javafx.event.ActionEvent;
@@ -9,10 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -40,6 +46,9 @@ public class PhotoScrollerCodeBehind {
 	@FXML
 	private ImageView imageView;
 
+    @FXML
+    private ComboBox<ColorFilterOptions> colorFilterComboBox;
+    
 	@FXML
 	private ListView<Photo> photosListView;
 
@@ -81,11 +90,35 @@ public class PhotoScrollerCodeBehind {
 				this.imageView.setImage(newValue);
 			}
 		});
+		
+		this.colorFilterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			this.createFilteredImage(newValue);
+		});
 
+	}
+
+	private void createFilteredImage(ColorFilterOptions filter) {
+		Photo originalPhoto = this.photosListView.getSelectionModel().getSelectedItem();
+		int[][] pixelArray = new int[(int)originalPhoto.getWidth()][(int)originalPhoto.getHeight()];
+		PixelReader reader = originalPhoto.getPixelReader();
+		WritableImage newImage = new WritableImage(reader, (int)originalPhoto.getWidth(), (int)originalPhoto.getHeight());
+		PixelWriter writer = newImage.getPixelWriter();
+		
+	for(int i = 0; i < originalPhoto.getWidth(); i++) {
+		for(int j = 0; j < originalPhoto.getHeight(); j++) {
+			Color color = reader.getColor(i, j);
+			color = Color.rgb((int)color.getRed(), (int)color.getGreen(), 255);
+			writer.setColor(i, j, color);
+			
+		}
+	}
+		
+		
 	}
 
 	private void setupBindings() {
 		this.photosListView.itemsProperty().bind(this.viewmodel.photoListProperty());
+		this.colorFilterComboBox.itemsProperty().bind(this.viewmodel.colorFilterProperty());
 		this.nextButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
 		this.previousButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
 		this.removeButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty()
