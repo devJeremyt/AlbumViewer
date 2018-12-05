@@ -48,6 +48,9 @@ public class PhotoScrollerCodeBehind {
 
 	@FXML
 	private Button previousButton;
+	
+    @FXML
+    private MenuItem removePhotoContextMenu;
 
 	@FXML
 	private Button nextButton;
@@ -87,6 +90,7 @@ public class PhotoScrollerCodeBehind {
 		this.previousButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
 		this.removeButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty()
 				.or(this.photosListView.getSelectionModel().selectedItemProperty().isNull()));
+		this.removePhotoContextMenu.disableProperty().bind(this.removeButton.disableProperty());
 
 	}
 
