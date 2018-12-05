@@ -83,10 +83,15 @@ public class PhotoAlbum implements Collection<Photo> {
 		}
 		return this.photos.get(newIndex);
 	}
+	
+
 
 	@Override
 	public boolean add(Photo photo) {
-		return this.photos.add(photo);
+		if(!this.contains(photo.getFilePath())) {
+			return this.photos.add(photo);
+		}
+		return false;
 	}
 
 	@Override
@@ -103,6 +108,23 @@ public class PhotoAlbum implements Collection<Photo> {
 	@Override
 	public boolean contains(Object photo) {
 		return this.photos.contains(photo);
+	}
+	
+	/**
+	 * Returns whether the same file exist in the album
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return true if a photo with the same file path exist
+	 */
+	public boolean contains(String filePath) {
+		for(Photo current : this.photos) {
+			if(current.getFilePath().equals(filePath)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
