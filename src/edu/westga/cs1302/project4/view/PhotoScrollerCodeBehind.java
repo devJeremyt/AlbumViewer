@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
@@ -46,9 +47,9 @@ public class PhotoScrollerCodeBehind {
 	@FXML
 	private ImageView imageView;
 
-    @FXML
-    private ComboBox<ColorFilterOptions> colorFilterComboBox;
-    
+	@FXML
+	private ComboBox<ColorFilterOptions> colorFilterComboBox;
+
 	@FXML
 	private ListView<Photo> photosListView;
 
@@ -57,9 +58,9 @@ public class PhotoScrollerCodeBehind {
 
 	@FXML
 	private Button previousButton;
-	
-    @FXML
-    private MenuItem removePhotoContextMenu;
+
+	@FXML
+	private MenuItem removePhotoContextMenu;
 
 	@FXML
 	private Button nextButton;
@@ -87,33 +88,52 @@ public class PhotoScrollerCodeBehind {
 	private void setupListeners() {
 		this.photosListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
-				this.imageView.setImage(newValue);
+				this.imageView.setImage(this.createFilteredImage());
 			}
 		});
-		
-		this.colorFilterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			this.createFilteredImage(newValue);
-		});
+
+		this.colorFilterComboBox.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> {
+					this.imageView.setImage(this.createFilteredImage());
+				});
 
 	}
 
-	private void createFilteredImage(ColorFilterOptions filter) {
+	private Image createFilteredImage() {
 		Photo originalPhoto = this.photosListView.getSelectionModel().getSelectedItem();
-		int[][] pixelArray = new int[(int)originalPhoto.getWidth()][(int)originalPhoto.getHeight()];
+		ColorFilterOptions filter = this.colorFilterComboBox.getSelectionModel().getSelectedItem();
 		PixelReader reader = originalPhoto.getPixelReader();
-		WritableImage newImage = new WritableImage(reader, (int)originalPhoto.getWidth(), (int)originalPhoto.getHeight());
+		WritableImage newImage = new WritableImage(reader, (int) originalPhoto.getWidth(),
+				(int) originalPhoto.getHeight());
 		PixelWriter writer = newImage.getPixelWriter();
-		
-	for(int i = 0; i < originalPhoto.getWidth(); i++) {
-		for(int j = 0; j < originalPhoto.getHeight(); j++) {
-			Color color = reader.getColor(i, j);
-			color = Color.rgb((int)color.getRed(), (int)color.getGreen(), 255);
-			writer.setColor(i, j, color);
-			
+
+		for (int i = 0; i < originalPhoto.getWidth(); i++) {
+			for (int j = 0; j < originalPhoto.getHeight(); j++) {
+				updatePixel(reader, writer, i, j, filter);
+
+			}
 		}
+
+		return newImage;
 	}
-		
-		
+
+	private void updatePixel(PixelReader reader, PixelWriter writer, int i, int j, ColorFilterOptions filter) {
+		Color originalColor = reader.getColor(i, j);
+		Color newColor = Color.color(originalColor.getRed(), originalColor.getGreen(), originalColor.getBlue());
+
+		if (filter == ColorFilterOptions.GREEN) {
+			newColor = Color.color(originalColor.getRed(), 1, originalColor.getBlue());
+		}
+		if (filter == ColorFilterOptions.BLUE) {
+			newColor = Color.color(originalColor.getRed(), originalColor.getGreen(), 1);
+		}
+		if (filter == ColorFilterOptions.RED) {
+			newColor = Color.color(1, originalColor.getGreen(), originalColor.getBlue());
+		}
+		if (filter == ColorFilterOptions.NONE) {
+			newColor = Color.color(originalColor.getRed(), originalColor.getGreen(), originalColor.getBlue());
+		}
+		writer.setColor(i, j, newColor);
 	}
 
 	private void setupBindings() {
