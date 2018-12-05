@@ -6,6 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The Main Class for the application
+ * 
+ * @author jeremy.trimble
+ *
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -23,6 +29,12 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Launches the app
+	 * 
+	 * @param args
+	 *            not used
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

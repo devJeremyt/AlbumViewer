@@ -6,7 +6,9 @@ import edu.westga.cs1302.project4.datatier.AlbumFileReader;
 import edu.westga.cs1302.project4.datatier.AlbumFileWriter;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.model.PhotoAlbum;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 
@@ -19,6 +21,7 @@ import javafx.collections.FXCollections;
 public class PhotoScrollerViewModel {
 	private PhotoAlbum album;
 	private ListProperty<Photo> photoListProperty;
+	private BooleanProperty emptyAlbumProperty;
 
 	/**
 	 * Creates a new PhotoScrollerViewModel
@@ -31,6 +34,7 @@ public class PhotoScrollerViewModel {
 		this.album = new PhotoAlbum();
 		this.photoListProperty = new SimpleListProperty<Photo>();
 		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		this.emptyAlbumProperty = new SimpleBooleanProperty(true);
 	}
 
 	/**
@@ -52,15 +56,27 @@ public class PhotoScrollerViewModel {
 	}
 
 	/**
+	 * Gets the emptyAlbumProperty
+	 * 
+	 * @return the emptuAlbumProperty
+	 */
+	public BooleanProperty emptyAlbumProperty() {
+		return this.emptyAlbumProperty;
+	}
+
+	/**
 	 * Gets the next Photo in the list
 	 * 
 	 * @precondition none
 	 * @postcondition none
 	 * 
+	 * @param currentIndex
+	 *            the current index
+	 * 
 	 * @return the next Photo
 	 */
-	public Photo getNext() {
-		return this.album.getNext();
+	public Photo getNext(int currentIndex) {
+		return this.album.getNext(currentIndex);
 	}
 
 	/**
@@ -69,10 +85,13 @@ public class PhotoScrollerViewModel {
 	 * @precondition none
 	 * @postcondition none
 	 * 
+	 * @param currentIndex
+	 *            the current index
+	 * 
 	 * @return the previous Photo in the list
 	 */
-	public Photo getPrevious() {
-		return this.album.getPrevious();
+	public Photo getPrevious(int currentIndex) {
+		return this.album.getPrevious(currentIndex);
 	}
 
 	/**
@@ -88,7 +107,7 @@ public class PhotoScrollerViewModel {
 	 */
 	public boolean addPhoto(Photo photo) {
 		boolean answer = this.album.add(photo);
-		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		this.updateProperties();
 		return answer;
 	}
 
@@ -106,7 +125,7 @@ public class PhotoScrollerViewModel {
 	 */
 	public void loadAlbum(String filePath, double photosWidth) {
 		this.album = AlbumFileReader.readAlbumFile(filePath, photosWidth);
-		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		this.updateProperties();
 
 	}
 
@@ -122,7 +141,7 @@ public class PhotoScrollerViewModel {
 	 */
 	public boolean removePhoto(Photo photo) {
 		boolean result = this.album.remove(photo);
-		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+		this.updateProperties();
 		return result;
 
 	}
@@ -139,5 +158,15 @@ public class PhotoScrollerViewModel {
 	public void saveAlbum(File selectedFile) {
 		AlbumFileWriter.createAlbumFile(selectedFile, this.album);
 
+	}
+
+	private void updateProperties() {
+		this.photoListProperty.set(FXCollections.observableArrayList(this.album));
+
+		if (this.album.isEmpty()) {
+			this.emptyAlbumProperty.set(true);
+		} else {
+			this.emptyAlbumProperty.set(false);
+		}
 	}
 }

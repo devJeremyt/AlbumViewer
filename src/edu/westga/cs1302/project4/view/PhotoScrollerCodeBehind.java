@@ -83,6 +83,10 @@ public class PhotoScrollerCodeBehind {
 
 	private void setupBindings() {
 		this.photosListView.itemsProperty().bind(this.viewmodel.photoListProperty());
+		this.nextButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
+		this.previousButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
+		this.removeButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty()
+				.or(this.photosListView.getSelectionModel().selectedItemProperty().isNull()));
 
 	}
 
@@ -113,6 +117,7 @@ public class PhotoScrollerCodeBehind {
 		if (selectedFile != null) {
 			Photo newPhoto = new Photo(selectedFile.getAbsolutePath(), this.imageView.getFitWidth());
 			this.viewmodel.addPhoto(newPhoto);
+			this.photosListView.getSelectionModel().select(newPhoto);
 		}
 
 	}
@@ -128,23 +133,27 @@ public class PhotoScrollerCodeBehind {
 		File selectedFile = fileChooser.showOpenDialog(stage);
 		if (selectedFile != null) {
 			this.viewmodel.loadAlbum(selectedFile.getAbsolutePath(), this.imageView.getFitWidth());
+			this.photosListView.getSelectionModel().selectIndices(0);
 		}
 	}
 
 	@FXML
 	void nextPhoto() {
-		this.photosListView.getSelectionModel().select(this.viewmodel.getNext());
+		int currentIndex = this.photosListView.getSelectionModel().getSelectedIndex();
+		this.photosListView.getSelectionModel().select(this.viewmodel.getNext(currentIndex));
 
 	}
 
 	@FXML
 	void previousPhoto(ActionEvent event) {
-		this.photosListView.getSelectionModel().select(this.viewmodel.getPrevious());
+		int currentIndex = this.photosListView.getSelectionModel().getSelectedIndex();
+		this.photosListView.getSelectionModel().select(this.viewmodel.getPrevious(currentIndex));
 	}
 
 	@FXML
 	void removePhoto(ActionEvent event) {
 		this.viewmodel.removePhoto(this.photosListView.getSelectionModel().getSelectedItem());
+		this.photosListView.getSelectionModel().selectNext();
 
 	}
 

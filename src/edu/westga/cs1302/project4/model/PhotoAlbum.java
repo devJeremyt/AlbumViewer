@@ -33,39 +33,55 @@ public class PhotoAlbum implements Collection<Photo> {
 	 * @precondition !isEmpty()
 	 * @postcondition none
 	 * 
+	 * @param currentIndex
+	 *            the current index of the collection
+	 * 
 	 * @return the next Photo in the album
 	 */
-	public Photo getNext() {
+	public Photo getNext(int currentIndex) {
 		if (this.isEmpty()) {
 			throw new IllegalArgumentException(ExceptionMessages.EMPTY_ALBUM);
 		}
-		if (this.currentIndex == this.size() - 1) {
-			this.currentIndex = 0;
-		} else {
-			this.currentIndex++;
+		if (currentIndex < 0) {
+			throw new IllegalArgumentException(ExceptionMessages.INDEX_LESS_THAN_ZERO);
 		}
-		return this.photos.get(this.currentIndex);
+		if (currentIndex >= this.photos.size()) {
+			throw new IllegalArgumentException(ExceptionMessages.INDEX_OUT_OF_BOUNDS);
+		}
+		int newIndex = 0;
+		if (currentIndex != this.photos.size() - 1) {
+			newIndex = currentIndex + 1;
+		}
+		return this.photos.get(newIndex);
 	}
 
 	/**
 	 * Returns the previous photo in the album, goes to the last image in the album
 	 * once it reaches the beginning.
 	 * 
-	 * @precondition size() > 0
+	 * @precondition !isEmpty() && currentIndex >= 0 && currentIndex < size()
 	 * @postcondition none
+	 * 
+	 * @param currentIndex
+	 *            the current index of the collection
 	 * 
 	 * @return the previous Photo in the album
 	 */
-	public Photo getPrevious() {
+	public Photo getPrevious(int currentIndex) {
 		if (this.isEmpty()) {
 			throw new IllegalArgumentException(ExceptionMessages.EMPTY_ALBUM);
 		}
-		if (this.currentIndex == 0) {
-			this.currentIndex = this.photos.size() - 1;
-		} else {
-			this.currentIndex--;
+		if (currentIndex < 0) {
+			throw new IllegalArgumentException(ExceptionMessages.INDEX_LESS_THAN_ZERO);
 		}
-		return this.photos.get(this.currentIndex);
+		if (currentIndex >= this.photos.size()) {
+			throw new IllegalArgumentException(ExceptionMessages.INDEX_OUT_OF_BOUNDS);
+		}
+		int newIndex = this.photos.size() - 1;
+		if (currentIndex != 0) {
+			newIndex = currentIndex - 1;
+		}
+		return this.photos.get(newIndex);
 	}
 
 	@Override
