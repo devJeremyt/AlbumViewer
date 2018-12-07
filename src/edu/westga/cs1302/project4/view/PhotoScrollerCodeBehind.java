@@ -5,7 +5,6 @@ import java.io.File;
 import edu.westga.cs1302.project4.model.ColorFilterOptions;
 import edu.westga.cs1302.project4.model.Photo;
 import edu.westga.cs1302.project4.viewmodel.PhotoScrollerViewModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -202,20 +201,20 @@ public class PhotoScrollerCodeBehind {
 	}
 
 	@FXML
-	void previousPhoto(ActionEvent event) {
+	void previousPhoto() {
 		int currentIndex = this.photosListView.getSelectionModel().getSelectedIndex();
 		this.photosListView.getSelectionModel().select(this.viewmodel.getPrevious(currentIndex));
 	}
 
 	@FXML
-	void removePhoto(ActionEvent event) {
+	void removePhoto() {
 		this.viewmodel.removePhoto(this.photosListView.getSelectionModel().getSelectedItem());
 		this.photosListView.getSelectionModel().selectNext();
 
 	}
 
 	@FXML
-	void displayAbout(ActionEvent event) {
+	void displayAbout() {
 		Alert about = new Alert(AlertType.INFORMATION);
 		about.setTitle("About");
 		about.setHeaderText("PhotoScroller by Jeremy Trimble");
