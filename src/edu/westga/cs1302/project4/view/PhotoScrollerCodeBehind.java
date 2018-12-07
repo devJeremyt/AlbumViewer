@@ -105,6 +105,12 @@ public class PhotoScrollerCodeBehind {
 			}
 		});
 
+		this.delayTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("^$|0|[1-9]|[1-9][0-9]")) {
+				this.delayTextField.textProperty().set(oldValue);
+			}
+		});
+
 		this.colorFilterComboBox.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> {
 					this.imageView.setImage(this.createFilteredImage());
@@ -184,6 +190,8 @@ public class PhotoScrollerCodeBehind {
 		this.photosListView.itemsProperty().bind(this.viewmodel.photoListProperty());
 		this.colorFilterComboBox.itemsProperty().bind(this.viewmodel.colorFilterProperty());
 		this.nextButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
+		this.startButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
+		this.stopButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
 		this.previousButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty());
 		this.removeButton.disableProperty().bind(this.viewmodel.emptyAlbumProperty()
 				.or(this.photosListView.getSelectionModel().selectedItemProperty().isNull()));
@@ -275,15 +283,17 @@ public class PhotoScrollerCodeBehind {
 				PhotoScrollerCodeBehind.this.nextPhoto();
 			}
 		}
-
+		this.timer.cancel();
 		this.timer = new Timer();
 		long delay = (Integer.parseInt(this.delayTextField.getText()) * 1000);
 		this.timer.scheduleAtFixedRate(new MyTask(), delay, delay);
+		this.delayTextField.disableProperty().set(true);
 	}
 
 	@FXML
 	void stopScroll() {
 		this.timer.cancel();
+		this.delayTextField.disableProperty().set(true);
 	}
 
 }
