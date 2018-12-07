@@ -106,14 +106,33 @@ public class PhotoScrollerCodeBehind {
 				(int) originalPhoto.getHeight());
 		PixelWriter writer = newImage.getPixelWriter();
 
-		for (int i = 0; i < originalPhoto.getWidth(); i++) {
-			for (int j = 0; j < originalPhoto.getHeight(); j++) {
-				updatePixel(reader, writer, i, j, filter);
-
+		for (int i = 1; i < originalPhoto.getWidth(); i++) {
+			for (int j = 1; j < originalPhoto.getHeight(); j++) {
+				if (filter != ColorFilterOptions.HOLIDAY) {
+					updatePixel(reader, writer, i, j, filter);
+				} else {
+					updatePixelsForHoliday(reader, writer, i, j, originalPhoto.getHeight());
+				}
 			}
 		}
 
 		return newImage;
+	}
+
+	private void updatePixelsForHoliday(PixelReader reader, PixelWriter writer, int i, int j, double height) {
+		Color originalColor = reader.getColor(i, j);
+		Color newColor = null;
+		double magicNumber = height / 4;
+		if (j < magicNumber) {
+			newColor = Color.color(originalColor.getRed(), 0, 0);
+		} else if (j > magicNumber && j < magicNumber * 2) {
+			newColor = Color.color(0, originalColor.getGreen(), 0);
+		} else if (j > magicNumber * 2 && j < magicNumber * 3) {
+			newColor = Color.color(originalColor.getRed(), 0, 0);
+		} else {
+			newColor = Color.color(0, originalColor.getGreen(), 0);
+		}
+		writer.setColor(i, j, newColor);
 	}
 
 	private void updatePixel(PixelReader reader, PixelWriter writer, int i, int j, ColorFilterOptions filter) {
@@ -131,6 +150,18 @@ public class PhotoScrollerCodeBehind {
 		}
 		if (filter == ColorFilterOptions.NONE) {
 			newColor = Color.color(originalColor.getRed(), originalColor.getGreen(), originalColor.getBlue());
+		}
+		if (filter == ColorFilterOptions.CYAN) {
+			newColor = Color.color(originalColor.getRed(), 1, 1);
+		}
+		if (filter == ColorFilterOptions.YELLOW) {
+			newColor = Color.color(1, 1, originalColor.getBlue());
+		}
+		if (filter == ColorFilterOptions.MAGENTA) {
+			newColor = Color.color(1, originalColor.getGreen(), 1);
+		}
+		if (filter == ColorFilterOptions.HOLIDAY) {
+
 		}
 		writer.setColor(i, j, newColor);
 	}
