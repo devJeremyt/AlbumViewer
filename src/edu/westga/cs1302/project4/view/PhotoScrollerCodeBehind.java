@@ -1,6 +1,8 @@
 package edu.westga.cs1302.project4.view;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.westga.cs1302.project4.model.ColorFilterOptions;
 import edu.westga.cs1302.project4.model.Photo;
@@ -12,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -44,6 +47,15 @@ public class PhotoScrollerCodeBehind {
 	private MenuItem fileAddPhotoMenuItem;
 
 	@FXML
+	private TextField delayTextField;
+
+	@FXML
+	private Button startButton;
+
+	@FXML
+	private Button stopButton;
+
+	@FXML
 	private ImageView imageView;
 
 	@FXML
@@ -65,6 +77,7 @@ public class PhotoScrollerCodeBehind {
 	private Button nextButton;
 
 	private PhotoScrollerViewModel viewmodel;
+	private Timer timer;
 
 	/**
 	 * Creates a new code behind for the PhotoScroller
@@ -75,6 +88,7 @@ public class PhotoScrollerCodeBehind {
 	 */
 	public PhotoScrollerCodeBehind() {
 		this.viewmodel = new PhotoScrollerViewModel();
+		this.timer = new Timer();
 
 	}
 
@@ -251,6 +265,25 @@ public class PhotoScrollerCodeBehind {
 		about.setHeaderText("PhotoScroller by Jeremy Trimble");
 		about.setContentText("Version 1.0");
 		about.showAndWait();
+	}
+
+	@FXML
+	void startScroll() {
+		class MyTask extends TimerTask {
+			@Override
+			public void run() {
+				PhotoScrollerCodeBehind.this.nextPhoto();
+			}
+		}
+
+		this.timer = new Timer();
+		long delay = (Integer.parseInt(this.delayTextField.getText()) * 1000);
+		this.timer.scheduleAtFixedRate(new MyTask(), delay, delay);
+	}
+
+	@FXML
+	void stopScroll() {
+		this.timer.cancel();
 	}
 
 }

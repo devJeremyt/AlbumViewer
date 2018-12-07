@@ -8,9 +8,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" minHeight="400.0" minWidth="650.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.project4.view.PhotoScrollerCodeBehind">
    <children>
@@ -42,7 +44,22 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ImageView fx:id="imageView" fitHeight="250.0" fitWidth="300.0" layoutX="34.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="previousButton" layoutX="147.0" layoutY="38.0" mnemonicParsing="false" onAction="#previousPhoto" text="&lt;">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="nextButton" layoutX="193.0" layoutY="38.0" mnemonicParsing="false" onAction="#nextPhoto" text="&gt;">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <ImageView fx:id="imageView" fitHeight="250.0" fitWidth="300.0" layoutX="34.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="68.0" layoutY="349.0" text="Scrolling Delay" />
+      <TextField fx:id="delayTextField" layoutX="154.0" layoutY="345.0" prefHeight="25.0" prefWidth="59.0" />
+      <Button fx:id="startButton" layoutX="228.0" layoutY="345.0" mnemonicParsing="false" onAction="#startScroll" text="Start" />
+      <Button fx:id="stopButton" layoutX="282.0" layoutY="345.0" mnemonicParsing="false" onAction="#stopScroll" text="Stop" />
+      <Label layoutX="389.0" layoutY="60.0" text="Filter" />
+      <ComboBox fx:id="colorFilterComboBox" layoutX="388.0" layoutY="78.0" prefWidth="150.0" />
+      <Label layoutX="389.0" layoutY="120.0" text="Photos" />
       <ListView fx:id="photosListView" layoutX="389.0" layoutY="137.0" prefHeight="190.0" prefWidth="200.0">
          <contextMenu>
             <ContextMenu>
@@ -52,11 +69,6 @@
               </items>
             </ContextMenu>
          </contextMenu></ListView>
-      <Button fx:id="removeButton" layoutX="463.0" layoutY="343.0" mnemonicParsing="false" onAction="#removePhoto" text="Remove" />
-      <Button fx:id="previousButton" layoutX="149.0" layoutY="343.0" mnemonicParsing="false" onAction="#previousPhoto" text="&lt;" />
-      <Button fx:id="nextButton" layoutX="194.0" layoutY="343.0" mnemonicParsing="false" onAction="#nextPhoto" text="&gt;" />
-      <Label layoutX="389.0" layoutY="120.0" text="Photos" />
-      <Label layoutX="389.0" layoutY="60.0" text="Filter" />
-      <ComboBox fx:id="colorFilterComboBox" layoutX="388.0" layoutY="78.0" prefWidth="150.0" />
+      <Button fx:id="removeButton" layoutX="459.0" layoutY="345.0" mnemonicParsing="false" onAction="#removePhoto" text="Remove" />
    </children>
 </AnchorPane>
