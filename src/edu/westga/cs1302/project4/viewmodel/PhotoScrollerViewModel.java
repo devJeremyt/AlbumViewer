@@ -1,6 +1,7 @@
 package edu.westga.cs1302.project4.viewmodel;
 
 import java.io.File;
+import java.util.List;
 
 import edu.westga.cs1302.project4.datatier.AlbumFileReader;
 import edu.westga.cs1302.project4.datatier.AlbumFileWriter;
@@ -138,6 +139,18 @@ public class PhotoScrollerViewModel {
 	 */
 	public void loadAlbum(String filePath, double photosWidth) {
 		this.album = AlbumFileReader.readAlbumFile(filePath, photosWidth);
+		List<String> duplicates = this.album.getDuplicatePhotos();
+		if (!duplicates.isEmpty()) {
+			String content = "";
+			Alert failed = new Alert(AlertType.INFORMATION);
+			failed.setTitle("Duplicate Photos Exist");
+			failed.setHeaderText("The following photos were duplicates and were only loaded once");
+			for (String current : duplicates) {
+				content += current + System.lineSeparator();
+			}
+			failed.setContentText(content);
+			failed.showAndWait();
+		}
 		this.updateProperties();
 
 	}

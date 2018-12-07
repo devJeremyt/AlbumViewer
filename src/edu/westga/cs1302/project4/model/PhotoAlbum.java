@@ -16,6 +16,7 @@ import edu.westga.cs1302.project4.resources.ExceptionMessages;
 public class PhotoAlbum implements Collection<Photo> {
 	private List<Photo> photos;
 	private int currentIndex;
+	private List<String> duplicatePhotos;
 
 	/**
 	 * Creates a new PhotoAlbum
@@ -23,7 +24,20 @@ public class PhotoAlbum implements Collection<Photo> {
 	 */
 	public PhotoAlbum() {
 		this.photos = new ArrayList<Photo>();
+		this.duplicatePhotos = new ArrayList<String>();
 		this.currentIndex = 0;
+	}
+
+	/**
+	 * Returns a list of duplicate photos in the album
+	 * 
+	 * @precondition none
+	 * @postcondition none
+	 * 
+	 * @return a list of duplicate photos
+	 */
+	public List<String> getDuplicatePhotos() {
+		return this.duplicatePhotos;
 	}
 
 	/**
@@ -83,14 +97,14 @@ public class PhotoAlbum implements Collection<Photo> {
 		}
 		return this.photos.get(newIndex);
 	}
-	
-
 
 	@Override
 	public boolean add(Photo photo) {
-		if(!this.contains(photo.getFilePath())) {
+		if (!this.contains(photo.getFilePath())) {
 			return this.photos.add(photo);
 		}
+
+		this.duplicatePhotos.add(photo.getFileName());
 		return false;
 	}
 
@@ -109,7 +123,7 @@ public class PhotoAlbum implements Collection<Photo> {
 	public boolean contains(Object photo) {
 		return this.photos.contains(photo);
 	}
-	
+
 	/**
 	 * Returns whether the same file exist in the album
 	 * 
@@ -119,8 +133,8 @@ public class PhotoAlbum implements Collection<Photo> {
 	 * @return true if a photo with the same file path exist
 	 */
 	public boolean contains(String filePath) {
-		for(Photo current : this.photos) {
-			if(current.getFilePath().equals(filePath)) {
+		for (Photo current : this.photos) {
+			if (current.getFilePath().equals(filePath)) {
 				return true;
 			}
 		}
